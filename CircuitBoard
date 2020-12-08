@@ -16,10 +16,7 @@ public class CircuitBoard {
 	private Point startingPoint;
 	/** location of row,col for '2' */
 	private Point endingPoint;
-	/** count of how many starting points in a board, should be 1 */
-	private int startingPointCount;
-	/** count of how many ending  points in a board, should be 1 */
-	private int endingPointCount;
+	
 
 
 	//constants you may find useful
@@ -94,6 +91,9 @@ public class CircuitBoard {
 			Scanner lineScan = new Scanner(currentLine);
 			
 			for(int j = 0; j < COLS; j++) {
+				if (!lineScan.hasNext()) {
+					throw new InvalidFileFormatException(filename.toString() + " 100");
+				}
 				char myChar = lineScan.next().charAt(0);
 				if (ALLOWED_CHARS.contains(Character.toString(myChar))) {
 
@@ -118,30 +118,13 @@ public class CircuitBoard {
 				board[i][j] = myChar;
 
 
-
-				//				if(ALLOWED_CHARS.indexOf(myChar) >= 0){
-				//					board[i][j] = myChar;
-				//					switch(myChar){
-				//					case START:
-				//						startingPoint = new Point(i,j);
-				//						break;
-				//					case END:
-				//						endingPoint = new Point(i,j);
-				//						break;
-				//					}
-				//
-				//				}
-				//				else{
-				//					throw new InvalidFileFormatException(myChar + " is not a valid character");
-				//				}
 				if(lineScan.hasNext()) {
-					throw new InvalidFileFormatException(filename) ;
+					throw new InvalidFileFormatException(filename + " here") ;
 				}
 				lineScan.close();
 			}
-
-
 		}
+		
 
 		if(startingPoint == null | endingPoint == null) {
 			throw new InvalidFileFormatException(filename.toString() + " 5");
