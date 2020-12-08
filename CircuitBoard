@@ -60,14 +60,14 @@ public class CircuitBoard {
 				ROWS = firstLineScanner.nextInt();
 			}
 			else {
-				throw new FileNotFoundException(firstLineScanner.toString() + " 8");
+				throw new InvalidFileFormatException(firstLineScanner.toString() + " 8");
 			}
 			
 			if (firstLineScanner.hasNextInt()) {
 				COLS = firstLineScanner.nextInt();
 			}
 			else {
-				throw new FileNotFoundException(filename.toString() + " 9");
+				throw new InvalidFileFormatException(filename.toString() + " 9");
 			}
 			firstLineScanner.close();
 			
