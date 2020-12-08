@@ -50,33 +50,44 @@ public class CircuitBoard {
 	 */
 	@SuppressWarnings("resource")
 	public CircuitBoard(String filename) throws FileNotFoundException {
-
-		File myFile = new File(filename);
-		if(!myFile.exists()){
-			throw new FileNotFoundException(myFile.toString() + " 0");
-		}
-		Scanner fileScan = new Scanner(myFile);
-		try{
-
-			ROWS = Integer.parseInt(fileScan.next());
-			COLS = Integer.parseInt(fileScan.next());
-		}
-		catch(NumberFormatException e){
-			throw new InvalidFileFormatException(e.toString());
-		}
-		catch(NoSuchElementException e){
-			throw new InvalidFileFormatException(e.toString());
-		}
-		catch(ArrayIndexOutOfBoundsException e){
-			throw new InvalidFileFormatException(e.toString());
-		}
+		
+		Scanner fileScan = new Scanner(new File(filename));
+		
+			String firstLine = fileScan.nextLine();
+			Scanner firstLineScanner = new Scanner(firstLine);
+			
+			if (firstLineScanner.hasNextInt()) {
+				ROWS = firstLineScanner.nextInt();
+			}
+			else {
+				throw new FileNotFoundException(firstLineScanner.toString() + " 8");
+			}
+			
+			if (firstLineScanner.hasNextInt()) {
+				COLS = firstLineScanner.nextInt();
+			}
+			else {
+				throw new FileNotFoundException(filename.toString() + " 9");
+			}
+			firstLineScanner.close();
+			
+		
+//		catch(NumberFormatException e){
+//			throw new InvalidFileFormatException(e.toString());
+//		}
+//		catch(NoSuchElementException e){
+//			throw new InvalidFileFormatException(e.toString());
+//		}
+//		catch(ArrayIndexOutOfBoundsException e){
+//			throw new InvalidFileFormatException(e.toString());
+//		}
 
 
 		board = new char[ROWS][COLS];
 		for(int i = 0; i < ROWS; i++){
 			toString();
 			if (!fileScan.hasNextLine()) {
-				throw new InvalidFileFormatException(myFile.toString() + " 1");
+				throw new InvalidFileFormatException(filename.toString() + " 1");
 			}
 
 			String currentLine = fileScan.nextLine();
@@ -87,7 +98,7 @@ public class CircuitBoard {
 				if (ALLOWED_CHARS.contains(Character.toString(myChar))) {
 
 					if(myChar == START && startingPoint != null) {
-						throw new InvalidFileFormatException(myFile.toString() + " 2");
+						throw new InvalidFileFormatException(filename.toString() + " 2");
 					}
 					else if(myChar == START) {
 						startingPoint = new Point(i,j);
@@ -95,14 +106,14 @@ public class CircuitBoard {
 					}
 
 					if(myChar == END && endingPoint != null) {
-						throw new InvalidFileFormatException(myFile.toString() + " 3");
+						throw new InvalidFileFormatException(filename.toString() + " 3");
 					}
 					else if(myChar == START) {
 						endingPoint = new Point(i,j);
 
 					}
 				}else {
-					throw new InvalidFileFormatException(myFile.toString() + " 4");
+					throw new InvalidFileFormatException(filename.toString() + " 4");
 				}
 				board[i][j] = myChar;
 
@@ -133,10 +144,10 @@ public class CircuitBoard {
 		}
 
 		if(startingPoint == null | endingPoint == null) {
-			throw new InvalidFileFormatException(myFile.toString() + " 5");
+			throw new InvalidFileFormatException(filename.toString() + " 5");
 		}
 		if(fileScan.hasNextLine()) {
-			throw new InvalidFileFormatException(myFile.toString() + " 6");
+			throw new InvalidFileFormatException(filename.toString() + " 6");
 		}
 		fileScan.close(); 
 	}
